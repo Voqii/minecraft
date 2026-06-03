@@ -1,6 +1,10 @@
-# CustomJoinAfkMessages
+# CustomJoinMessages (fork)
 
 A Minecraft (Paper/Spigot/Purpur) plugin for custom per-player join, leave and AFK messages.
+
+> Keeps the upstream plugin name `CustomJoinMessages` (and data folder) so it's a
+> drop-in replacement — existing configs/messages are preserved. The version
+> `1.3.0-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
 
 This is a fork of [milan252525/CustomJoinMessages](https://github.com/milan252525/CustomJoinMessages)
 by **milan_25** ([SpigotMC resource](https://www.spigotmc.org/resources/custom-player-join-leave-messages.74263/)).
