@@ -1,8 +1,8 @@
-name: CustomJoinMessages
+name: CustomJoinAfkMessages
 version: '${project.version}'
 main: com.milan25.customjoinmessages.CustomJoinMessages
 api-version: '1.21'
-authors: [ milan_25 ]
+authors: [ milan_25, Voqii ]
 description: Custom join, leave and AFK messages
 depend: [PlaceholderAPI]
 softdepend: [Essentials]

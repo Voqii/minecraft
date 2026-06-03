@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.milan25</groupId>
-    <artifactId>CustomJoinMessages</artifactId>
-    <version>1.2.1</version>
+    <artifactId>CustomJoinAfkMessages</artifactId>
+    <version>1.3.0-voqii</version>
     <packaging>jar</packaging>
 
-    <name>CustomJoinMessages</name>
+    <name>CustomJoinAfkMessages</name>
 
-    <description>Custom join and leave messages</description>
+    <description>Custom join, leave and AFK messages (fork of milan_25's CustomJoinMessages)</description>
 
     <properties>
         <!-- General -->
