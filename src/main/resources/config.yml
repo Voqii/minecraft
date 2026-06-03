@@ -8,7 +8,20 @@ custom_leave_message: ""
 # Set a default prefix for all custom leave messages.
 custom_leave_message_prefix: ""
 
+# AFK messages require EssentialsX to be installed (they are triggered by Essentials' AFK status).
+# Set a default AFK message, {NAME} will be replaced with player's name. Leave empty to broadcast nothing.
+custom_afk_message: ""
+# Set a default prefix for all custom AFK messages.
+custom_afk_message_prefix: ""
+
+# Set a default return (no-longer-AFK) message, {NAME} will be replaced with player's name. Leave empty to broadcast nothing.
+custom_return_message: ""
+# Set a default prefix for all custom return messages.
+custom_return_message_prefix: ""
+
 # Custom messages are stored here
 saved_messages:
   join:
   leave:
+  afk:
+  return:

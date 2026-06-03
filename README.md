@@ -8,8 +8,9 @@ All original functionality and credit belongs to the original author.
 
 ## Requirements
 
-- Paper/Spigot server (`api-version: 1.21`)
+- Paper/Spigot/Purpur server (`api-version: 1.21`)
 - [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) (required — the plugin disables itself without it)
+- [EssentialsX](https://essentialsx.net/) (optional — only needed for AFK/return messages)
 - Java 21 to build
 
 ## Commands
@@ -18,16 +19,28 @@ All original functionality and credit belongs to the original author.
 `saved_messages.join.<uuid>` / `saved_messages.leave.<uuid>`.
 
 ### Player (`custommessages.set`)
-- `/cm set join|leave <message>` — set your own join/leave message
+- `/cm set join|leave|afk|return <message>` — set your own message
 - `/cm show` — view your messages
 - `/cm reset` — reset your messages to default
 
 ### Admin (`custommessages.admin`)
-- `/cm adminset <player> join|leave <message>` — set another player's message
+- `/cm adminset <player> join|leave|afk|return <message>` — set another player's message
 - `/cm adminshow <player>` — view another player's messages
 - `/cm adminreset <player>` — reset another player's messages to default
-- `/cm adminremove <player> join|leave|all` — **remove** a player's stored custom message(s)
+- `/cm adminremove <player> join|leave|afk|return|all` — **remove** a player's stored custom message(s)
 - `/cm adminreload` — reload the configuration
+
+## AFK / return messages (EssentialsX)
+
+`afk` and `return` messages are broadcast when a player's EssentialsX AFK status
+changes (via `/afk` or Essentials' idle timer). They work exactly like join/leave —
+per-UUID storage under `saved_messages.afk` / `saved_messages.return`, with
+`custom_afk_message` / `custom_return_message` (+ prefixes) as defaults in `config.yml`.
+
+This is driven by EssentialsX's `AfkStatusChangeEvent`. EssentialsX is a **soft**
+dependency: if it isn't installed the plugin still loads and join/leave keep working —
+only the AFK listener is skipped (logged at startup). An empty AFK/return message
+broadcasts nothing.
 
 ## Changes in this fork
 
@@ -39,6 +52,11 @@ All original functionality and credit belongs to the original author.
 - **New `/cm adminremove <player> join|leave|all`** subcommand that fully removes stored
   message entries (sets the config keys to `null`) rather than blanking them to an empty
   string, so they no longer linger in `config.yml`.
+
+- **AFK / return messages via EssentialsX.** New per-player `afk` and `return` message
+  types, broadcast on EssentialsX's `AfkStatusChangeEvent`. Added a soft dependency on
+  Essentials and a conditional listener (registered only when Essentials is present),
+  mirroring the existing PlaceholderAPI handling. See the section above.
 
 > Name resolution checks online players first, then the server's cached offline players
 > (anyone who has joined before) — no blocking Mojang lookup. If the name has never been
