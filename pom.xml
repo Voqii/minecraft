@@ -6,12 +6,12 @@
 
     <groupId>com.milan25</groupId>
     <artifactId>CustomJoinMessages</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.0-voqii</version>
     <packaging>jar</packaging>
 
     <name>CustomJoinMessages</name>
 
-    <description>Custom join and leave messages</description>
+    <description>Custom join, leave and AFK messages (fork of milan_25's CustomJoinMessages)</description>
 
     <properties>
         <!-- General -->
@@ -22,6 +22,7 @@
         <paper.api.version>1.21.11-R0.1-SNAPSHOT</paper.api.version>
         <commandapi.version>11.1.0</commandapi.version>
         <placeholderapi.version>2.11.7</placeholderapi.version>
+        <essentialsx.version>2.21.2</essentialsx.version>
 
         <!-- Plugin versions -->
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
@@ -104,6 +105,10 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>essentialsx-releases</id>
+            <url>https://repo.essentialsx.net/releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -128,6 +133,12 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>${placeholderapi.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.essentialsx</groupId>
+            <artifactId>EssentialsX</artifactId>
+            <version>${essentialsx.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
