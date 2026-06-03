@@ -1,0 +1,14 @@
+# Set a default custom join message. {NAME} will be replaced with player's name. Leave empty for default Minecraft message.
+custom_join_message: ""
+# Set a default prefix for all custom join messages.
+custom_join_message_prefix: ""
+
+# Set a default leave join message, {NAME} will be replaced with player's name. Leave empty for default Minecraft message.
+custom_leave_message: ""
+# Set a default prefix for all custom leave messages.
+custom_leave_message_prefix: ""
+
+# Custom messages are stored here
+saved_messages:
+  join:
+  leave:
