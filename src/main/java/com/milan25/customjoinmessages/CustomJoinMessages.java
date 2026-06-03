@@ -1,6 +1,7 @@
 package com.milan25.customjoinmessages;
 
 import com.milan25.customjoinmessages.commands.CMCommand;
+import com.milan25.customjoinmessages.events.AFKEvents;
 import com.milan25.customjoinmessages.events.CMEvents;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIPaperConfig;
@@ -29,6 +30,14 @@ public final class CustomJoinMessages extends JavaPlugin {
         } else {
             this.getLogger().warning("Could not find PlaceholderAPI! This plugin is required.");
             this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        if (this.getServer().getPluginManager().getPlugin("Essentials") != null) {
+            this.getServer().getPluginManager().registerEvents(new AFKEvents(this), this);
+            this.getLogger().info("Hooked into EssentialsX - AFK/return messages enabled.");
+        } else {
+            this.getLogger().info("EssentialsX not found - AFK/return messages disabled (join/leave still work).");
         }
     }
 
