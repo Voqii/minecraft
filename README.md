@@ -22,6 +22,7 @@ All original functionality and credit belongs to the original author.
 - `/cm set join|leave|afk|return <message>` — set your own message
 - `/cm show` — view your messages
 - `/cm reset` — reset your messages to default
+- `/cm afktoggle [on|off]` — toggle whether *your* AFK/return changes are announced in chat (no argument flips it)
 
 ### Admin (`custommessages.admin`)
 - `/cm adminset <player> join|leave|afk|return <message>` — set another player's message
@@ -41,6 +42,20 @@ This is driven by EssentialsX's `AfkStatusChangeEvent`. EssentialsX is a **soft*
 dependency: if it isn't installed the plugin still loads and join/leave keep working —
 only the AFK listener is skipped (logged at startup). An empty AFK/return message
 broadcasts nothing.
+
+### Per-player AFK broadcast toggle
+
+`/cm afktoggle` lets each player opt out of having their AFK/return announced in
+chat. When off, the plugin skips the broadcast for that player in **both**
+directions — but they still appear as AFK in the tab list, because that tag comes
+from Essentials' `afk-list-name`, not this plugin. Preferences are stored per-UUID
+under `afk_broadcast` in `config.yml` and default to **on**. This only affects AFK
+messages; join/leave are unaffected.
+
+To make this plugin the sole source of AFK announcements (so it isn't doubled up
+with Essentials' own broadcast), set `broadcast-afk-message: false` in EssentialsX's
+`config.yml`. AFK *tracking* and the event this plugin listens to are unaffected by
+that setting.
 
 ## Changes in this fork
 

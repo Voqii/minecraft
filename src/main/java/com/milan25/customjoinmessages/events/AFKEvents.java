@@ -28,6 +28,13 @@ public class AFKEvents implements Listener {
         Player player = event.getAffected().getBase();
         boolean nowAfk = event.getValue();
 
+        // Per-player opt-out. When disabled (via /cm afktoggle) we skip the chat
+        // broadcast entirely - the player still shows as AFK in the tab list,
+        // since that is handled by Essentials, not this plugin. Defaults to on.
+        if (!this.plugin.getConfig().getBoolean("afk_broadcast." + player.getUniqueId(), true)) {
+            return;
+        }
+
         String savedKey = nowAfk ? "saved_messages.afk." : "saved_messages.return.";
         String defaultKey = nowAfk ? "custom_afk_message" : "custom_return_message";
         String prefixKey = nowAfk ? "custom_afk_message_prefix" : "custom_return_message_prefix";

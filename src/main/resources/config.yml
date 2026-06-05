@@ -25,3 +25,9 @@ saved_messages:
   leave:
   afk:
   return:
+
+# Per-player AFK broadcast preferences, toggled in-game with /cm afktoggle.
+# When a player's value is false, their AFK/return changes are NOT announced in
+# chat (they still show as AFK in the tab list - that is handled by Essentials).
+# A missing entry means broadcasting is enabled by default. Does not affect join/leave.
+afk_broadcast:
