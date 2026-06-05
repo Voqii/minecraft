@@ -32,6 +32,7 @@ public class CMCommand {
             sb.append(ChatColor.translateAlternateColorCodes('&', "&A/cm set join/leave/afk/return [message] &F- Set your join, leave, AFK or return message. Don't forget to include your name. (AFK/return need EssentialsX.)\n"));
             sb.append(ChatColor.translateAlternateColorCodes('&', "&A/cm show &F- View your custom messages.\n"));
             sb.append(ChatColor.translateAlternateColorCodes('&', "&A/cm reset &F- Reset your messages to default ones.\n"));
+            sb.append(ChatColor.translateAlternateColorCodes('&', "&A/cm afktoggle [on/off] &F- Toggle whether your AFK/return changes are announced in chat (you still show as AFK in the tab list).\n"));
         }
 
         if (player.hasPermission("custommessages.admin")) {
@@ -207,6 +208,33 @@ public class CMCommand {
     @Permission("custommessages.set")
     public static void cmShowSelf(Player player) {
         cmShowMessage(player, player);
+    }
+
+    private static void applyAfkBroadcast(Player player, boolean enabled) {
+        var plugin = CustomJoinMessages.getPlugin(CustomJoinMessages.class);
+        plugin.getConfig().set("afk_broadcast." + player.getUniqueId(), enabled);
+        plugin.saveConfig();
+        if (enabled) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYour AFK broadcasts are now ON - others will see when you go AFK or come back."));
+        } else {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYour AFK broadcasts are now OFF - you'll still show as AFK in the tab list, but it won't be announced in chat."));
+        }
+    }
+
+    @Subcommand("afktoggle")
+    @Description("Toggle whether your AFK/return changes are announced in chat.")
+    @Permission("custommessages.set")
+    public static void cmAfkToggle(Player player) {
+        var plugin = CustomJoinMessages.getPlugin(CustomJoinMessages.class);
+        boolean current = plugin.getConfig().getBoolean("afk_broadcast." + player.getUniqueId(), true);
+        applyAfkBroadcast(player, !current);
+    }
+
+    @Subcommand("afktoggle")
+    @Description("Set whether your AFK/return changes are announced in chat.")
+    @Permission("custommessages.set")
+    public static void cmAfkToggleSet(Player player, @AMultiLiteralArgument({"on", "off"}) String state) {
+        applyAfkBroadcast(player, state.equalsIgnoreCase("on"));
     }
 
     @Subcommand("adminreload")
