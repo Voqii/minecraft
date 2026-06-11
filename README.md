@@ -4,7 +4,7 @@ A Minecraft (Paper/Spigot/Purpur) plugin for custom per-player join, leave and A
 
 > Keeps the upstream plugin name `CustomJoinMessages` (and data folder) so it's a
 > drop-in replacement — existing configs/messages are preserved. The version
-> `1.3.0-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
+> `1.4.0-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
 
 This is a fork of [milan252525/CustomJoinMessages](https://github.com/milan252525/CustomJoinMessages)
 by **milan_25** ([SpigotMC resource](https://www.spigotmc.org/resources/custom-player-join-leave-messages.74263/)).
@@ -24,6 +24,7 @@ All original functionality and credit belongs to the original author.
 
 ### Player (`custommessages.set`)
 - `/cm set join|leave|afk|return <message>` — set your own message
+- `/cm toggle afk|return` — turn your own AFK or return broadcast on or off
 - `/cm show` — view your messages
 - `/cm reset` — reset your messages to default
 
@@ -46,6 +47,11 @@ dependency: if it isn't installed the plugin still loads and join/leave keep wor
 only the AFK listener is skipped (logged at startup). An empty AFK/return message
 broadcasts nothing.
 
+Players can silence their own AFK/return broadcast with `/cm toggle afk|return`. The
+opt-out is stored per-UUID under `silenced.afk` / `silenced.return` (a missing entry
+means the broadcast is on, which is the default). This pairs with disabling Essentials'
+own AFK announcements so this plugin is the single source of those messages.
+
 ## Changes in this fork
 
 - **Offline player support for admin commands.** `adminset`, `adminshow`, `adminreset`
@@ -61,6 +67,10 @@ broadcasts nothing.
   types, broadcast on EssentialsX's `AfkStatusChangeEvent`. Added a soft dependency on
   Essentials and a conditional listener (registered only when Essentials is present),
   mirroring the existing PlaceholderAPI handling. See the section above.
+
+- **Per-player broadcast toggle.** New `/cm toggle afk|return` lets players opt their
+  own AFK/return broadcast off (and back on). Stored per-UUID under `silenced.afk` /
+  `silenced.return`; the listener skips broadcasting for opted-out players.
 
 > Name resolution checks online players first, then the server's cached offline players
 > (anyone who has joined before) — no blocking Mojang lookup. If the name has never been

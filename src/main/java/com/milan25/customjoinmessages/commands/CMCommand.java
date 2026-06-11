@@ -30,6 +30,7 @@ public class CMCommand {
         sb.append(ChatColor.translateAlternateColorCodes('&', "&A_____CustomMessages commands:_____\n"));
         if (player.hasPermission("custommessages.set")) {
             sb.append(ChatColor.translateAlternateColorCodes('&', "&A/cm set join/leave/afk/return [message] &F- Set your join, leave, AFK or return message. Don't forget to include your name. (AFK/return need EssentialsX.)\n"));
+            sb.append(ChatColor.translateAlternateColorCodes('&', "&A/cm toggle afk/return &F- Turn your own AFK or return broadcast on or off.\n"));
             sb.append(ChatColor.translateAlternateColorCodes('&', "&A/cm show &F- View your custom messages.\n"));
             sb.append(ChatColor.translateAlternateColorCodes('&', "&A/cm reset &F- Reset your messages to default ones.\n"));
         }
@@ -140,6 +141,25 @@ public class CMCommand {
     @Permission("custommessages.set")
     public static void cmResetSelf(Player player) {
         cmResetMessage(player, player);
+    }
+
+    @Subcommand("toggle")
+    @Description("Turn your own AFK or return broadcast on or off.")
+    @Permission("custommessages.set")
+    public static void cmToggle(Player player, @AMultiLiteralArgument({"afk", "return"}) String messageType) {
+        String type = messageType.toLowerCase();
+        var plugin = CustomJoinMessages.getPlugin(CustomJoinMessages.class);
+        String path = "silenced." + type + "." + player.getUniqueId();
+
+        boolean nowSilenced = !plugin.getConfig().getBoolean(path, false);
+        // Default state is "broadcast", so we only persist the opt-out and clear
+        // the key when the player opts back in to keep the config tidy.
+        plugin.getConfig().set(path, nowSilenced ? true : null);
+        plugin.saveConfig();
+
+        player.sendMessage(nowSilenced
+                ? "Your " + type + " message will no longer be broadcast."
+                : "Your " + type + " message will now be broadcast.");
     }
 
     private static void cmRemoveMessage(Player player, OfflinePlayer target, String messageType) {

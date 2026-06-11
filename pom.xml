@@ -6,7 +6,7 @@
 
     <groupId>com.milan25</groupId>
     <artifactId>CustomJoinMessages</artifactId>
-    <version>1.3.0-voqii</version>
+    <version>1.4.0-voqii</version>
     <packaging>jar</packaging>
 
     <name>CustomJoinMessages</name>

@@ -28,6 +28,12 @@ public class AFKEvents implements Listener {
         Player player = event.getAffected().getBase();
         boolean nowAfk = event.getValue();
 
+        // Players can silence their own AFK/return broadcast via /cm toggle.
+        String type = nowAfk ? "afk" : "return";
+        if (this.plugin.getConfig().getBoolean("silenced." + type + "." + player.getUniqueId(), false)) {
+            return;
+        }
+
         String savedKey = nowAfk ? "saved_messages.afk." : "saved_messages.return.";
         String defaultKey = nowAfk ? "custom_afk_message" : "custom_return_message";
         String prefixKey = nowAfk ? "custom_afk_message_prefix" : "custom_return_message_prefix";

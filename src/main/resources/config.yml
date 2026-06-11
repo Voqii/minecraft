@@ -25,3 +25,9 @@ saved_messages:
   leave:
   afk:
   return:
+
+# Players who have opted out of their own AFK/return broadcast via /cm toggle.
+# Entries are stored as <uuid>: true; absence means the broadcast is on (default).
+silenced:
+  afk:
+  return:
