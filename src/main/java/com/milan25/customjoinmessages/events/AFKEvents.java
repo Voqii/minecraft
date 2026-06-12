@@ -17,6 +17,14 @@ import me.clip.placeholderapi.PlaceholderAPI;
  * falling back to the custom_afk_message / custom_return_message defaults.
  */
 public class AFKEvents implements Listener {
+    // Built-in fallback messages used when neither the player nor the server admin
+    // has set one. This keeps AFK/return announcements working out of the box for
+    // players without a custom (paid-tier) message, now that EssentialsX's own AFK
+    // broadcasts are turned off. {NAME} is replaced with the player's name. The admin
+    // can override these globally via custom_afk_message / custom_return_message.
+    private static final String DEFAULT_AFK_MESSAGE = "&7{NAME} is now AFK";
+    private static final String DEFAULT_RETURN_MESSAGE = "&7{NAME} is no longer AFK";
+
     private final CustomJoinMessages plugin;
 
     public AFKEvents(CustomJoinMessages plugin) {
@@ -41,11 +49,13 @@ public class AFKEvents implements Listener {
         String message = this.plugin.getConfig().getString(savedKey + player.getUniqueId(), "");
 
         if (message.isEmpty()) {
+            // No per-player message: fall back to the admin-configured default, and
+            // if that is empty too, to the built-in default so it is never silent.
             String defaultMessage = this.plugin.getConfig().getString(defaultKey, "");
-
-            if (!defaultMessage.isEmpty()) {
-                message = defaultMessage.replace("{NAME}", player.getName());
+            if (defaultMessage.isEmpty()) {
+                defaultMessage = nowAfk ? DEFAULT_AFK_MESSAGE : DEFAULT_RETURN_MESSAGE;
             }
+            message = defaultMessage.replace("{NAME}", player.getName());
         }
 
         String prefix = this.plugin.getConfig().getString(prefixKey, "");

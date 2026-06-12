@@ -4,7 +4,7 @@ A Minecraft (Paper/Spigot/Purpur) plugin for custom per-player join, leave and A
 
 > Keeps the upstream plugin name `CustomJoinMessages` (and data folder) so it's a
 > drop-in replacement — existing configs/messages are preserved. The version
-> `1.4.0-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
+> `1.5.0-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
 
 This is a fork of [milan252525/CustomJoinMessages](https://github.com/milan252525/CustomJoinMessages)
 by **milan_25** ([SpigotMC resource](https://www.spigotmc.org/resources/custom-player-join-leave-messages.74263/)).
@@ -44,8 +44,14 @@ per-UUID storage under `saved_messages.afk` / `saved_messages.return`, with
 
 This is driven by EssentialsX's `AfkStatusChangeEvent`. EssentialsX is a **soft**
 dependency: if it isn't installed the plugin still loads and join/leave keep working —
-only the AFK listener is skipped (logged at startup). An empty AFK/return message
-broadcasts nothing.
+only the AFK listener is skipped (logged at startup).
+
+Players without their own AFK/return message fall back to a **built-in default**
+(`<name> is now AFK` / `<name> is no longer AFK`) so they're still announced once
+EssentialsX's own AFK broadcasts are turned off. Resolution order is: the player's own
+message (`/cm set afk|return`, typically a paid perk) → the server-wide
+`custom_afk_message` / `custom_return_message` in `config.yml` if set → the built-in
+default. Players can still mute themselves entirely with `/cm toggle`.
 
 Players can silence their own AFK/return broadcast with `/cm toggle afk|return`. The
 opt-out is stored per-UUID under `silenced.afk` / `silenced.return` (a missing entry
@@ -71,6 +77,12 @@ own AFK announcements so this plugin is the single source of those messages.
 - **Per-player broadcast toggle.** New `/cm toggle afk|return` lets players opt their
   own AFK/return broadcast off (and back on). Stored per-UUID under `silenced.afk` /
   `silenced.return`; the listener skips broadcasting for opted-out players.
+
+- **Built-in default AFK/return message.** Players without their own message (and with
+  no server-wide `custom_afk_message` / `custom_return_message` set) now fall back to a
+  built-in default instead of broadcasting nothing, so AFK/return announcements still
+  work for non-paid players once EssentialsX's own broadcasts are disabled. The admin
+  default and `/cm toggle` opt-out still take precedence.
 
 > Name resolution checks online players first, then the server's cached offline players
 > (anyone who has joined before) — no blocking Mojang lookup. If the name has never been
