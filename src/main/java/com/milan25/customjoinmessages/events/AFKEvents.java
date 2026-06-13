@@ -18,12 +18,15 @@ import me.clip.placeholderapi.PlaceholderAPI;
  */
 public class AFKEvents implements Listener {
     // Built-in fallback messages used when neither the player nor the server admin
-    // has set one. This keeps AFK/return announcements working out of the box for
-    // players without a custom (paid-tier) message, now that EssentialsX's own AFK
-    // broadcasts are turned off. {NAME} is replaced with the player's name. The admin
-    // can override these globally via custom_afk_message / custom_return_message.
-    private static final String DEFAULT_AFK_MESSAGE = "&7{NAME} is now AFK";
-    private static final String DEFAULT_RETURN_MESSAGE = "&7{NAME} is no longer AFK";
+    // has set one. {NAME} is replaced with the player's name. The admin can override
+    // these globally via custom_afk_message / custom_return_message.
+    //
+    // This mirrors EssentialsX's old behaviour: going AFK is silent, returning is
+    // announced. The AFK default is intentionally empty so players without a custom
+    // (paid-tier) message broadcast nothing when they go AFK, but are still announced
+    // on return now that EssentialsX's own AFK broadcasts are turned off.
+    private static final String DEFAULT_AFK_MESSAGE = "";
+    private static final String DEFAULT_RETURN_MESSAGE = "&7* {NAME} is no longer AFK.";
 
     private final CustomJoinMessages plugin;
 

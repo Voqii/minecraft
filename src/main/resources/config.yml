@@ -10,13 +10,14 @@ custom_leave_message_prefix: ""
 
 # AFK messages require EssentialsX to be installed (they are triggered by Essentials' AFK status).
 # Default AFK message for players who haven't set their own, {NAME} will be replaced with player's name.
-# Leave empty to use the built-in default ("<name> is now AFK"); set a value here to override it for everyone.
+# Leave empty for no broadcast when a player goes AFK (the built-in default is silent, mirroring
+# EssentialsX's old behaviour); set a value here to announce going-AFK for everyone.
 custom_afk_message: ""
 # Set a default prefix for all custom AFK messages.
 custom_afk_message_prefix: ""
 
 # Default return (no-longer-AFK) message for players who haven't set their own, {NAME} will be replaced with player's name.
-# Leave empty to use the built-in default ("<name> is no longer AFK"); set a value here to override it for everyone.
+# Leave empty to use the built-in default ("* <name> is no longer AFK."); set a value here to override it for everyone.
 custom_return_message: ""
 # Set a default prefix for all custom return messages.
 custom_return_message_prefix: ""
