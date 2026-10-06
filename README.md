@@ -4,7 +4,7 @@ A Minecraft (Paper/Spigot/Purpur) plugin for custom per-player join, leave and A
 
 > Keeps the upstream plugin name `CustomJoinMessages` (and data folder) so it's a
 > drop-in replacement — existing configs/messages are preserved. The version
-> `1.5.1-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
+> `1.5.3-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
 
 This is a fork of [milan252525/CustomJoinMessages](https://github.com/milan252525/CustomJoinMessages)
 by **milan_25** ([SpigotMC resource](https://www.spigotmc.org/resources/custom-player-join-leave-messages.74263/)).
@@ -12,7 +12,7 @@ All original functionality and credit belongs to the original author.
 
 ## Requirements
 
-- Paper/Spigot/Purpur server (`api-version: 1.21`)
+- Paper or Purpur server, 1.20.6+ (tested up to 26.3) — `/cm` uses Paper's Brigadier command API, so plain Spigot is not supported
 - [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) (required — the plugin disables itself without it)
 - [EssentialsX](https://essentialsx.net/) (optional — only needed for AFK/return messages)
 - Java 21 to build
@@ -62,6 +62,10 @@ own AFK announcements so this plugin is the single source of those messages.
 
 ## Changes in this fork
 
+- **Minecraft 26.3 support (1.5.3).** `/cm` is registered through Paper's built-in Brigadier
+  command API instead of the shaded CommandAPI, whose per-version internals broke on 26.3
+  (`NoClassDefFoundError: FuelValues`). Same subcommands, permissions and tab completion;
+  nothing is shaded any more, so the jar no longer needs updating for each Minecraft release.
 - **Offline player support for admin commands.** `adminset`, `adminshow`, `adminreset`
   and the new `adminremove` now take a player **name** and resolve it to the stored UUID,
   instead of requiring an online entity-selector target. Because messages are keyed by
@@ -99,4 +103,4 @@ own AFK announcements so this plugin is the single source of those messages.
 mvn clean package
 ```
 
-The shaded plugin JAR is produced in `target/`.
+The plugin JAR is produced in `target/`.
