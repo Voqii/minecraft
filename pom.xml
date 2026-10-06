@@ -6,7 +6,7 @@
 
     <groupId>com.milan25</groupId>
     <artifactId>CustomJoinMessages</artifactId>
-    <version>1.5.1-voqii</version>
+    <version>1.5.3-voqii</version>
     <packaging>jar</packaging>
 
     <name>CustomJoinMessages</name>
@@ -20,13 +20,11 @@
 
         <!-- Dependency versions -->
         <paper.api.version>1.21.11-R0.1-SNAPSHOT</paper.api.version>
-        <commandapi.version>11.1.0</commandapi.version>
         <placeholderapi.version>2.11.7</placeholderapi.version>
         <essentialsx.version>2.21.2</essentialsx.version>
 
         <!-- Plugin versions -->
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
-        <maven.shade.plugin.version>3.5.3</maven.shade.plugin.version>
         <maven.jar.plugin.version>3.4.1</maven.jar.plugin.version>
     </properties>
 
@@ -39,36 +37,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>dev.jorel</groupId>
-                            <artifactId>commandapi-paper-annotations</artifactId>
-                            <version>${commandapi.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven.shade.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>shade</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <minimizeJar>true</minimizeJar>
-                    <relocations>
-                        <relocation>
-                            <pattern>dev.jorel.commandapi</pattern>
-                            <shadedPattern>com.milan25.customjoinmessages.commandapi</shadedPattern>
-                        </relocation>
-                    </relocations>
                 </configuration>
             </plugin>
             <plugin>
@@ -116,17 +84,6 @@
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>${paper.api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.jorel</groupId>
-            <artifactId>commandapi-paper-shade</artifactId>
-            <version>${commandapi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.jorel</groupId>
-            <artifactId>commandapi-paper-annotations</artifactId>
-            <version>${commandapi.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

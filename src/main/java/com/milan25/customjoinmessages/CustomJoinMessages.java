@@ -1,23 +1,19 @@
 package com.milan25.customjoinmessages;
 
-import com.milan25.customjoinmessages.commands.CMCommand;
+import com.milan25.customjoinmessages.commands.CMCommandTree;
 import com.milan25.customjoinmessages.events.AFKEvents;
 import com.milan25.customjoinmessages.events.CMEvents;
-import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPIPaperConfig;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CustomJoinMessages extends JavaPlugin {
 
     @Override
-    public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIPaperConfig(this));
-        CommandAPI.registerCommand(CMCommand.class);
-    }
-
-    @Override
     public void onEnable() {
-        CommandAPI.onEnable();
+        // /cm is registered through Paper's Brigadier API rather than CommandAPI, whose
+        // per-version NMS adapters broke on 26.3 (NoClassDefFoundError FuelValues).
+        this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event ->
+                event.registrar().register(CMCommandTree.build(), "Custom join, leave and AFK messages"));
 
         this.getLogger().info("CustomMessages plugin loaded");
 
@@ -39,10 +35,5 @@ public final class CustomJoinMessages extends JavaPlugin {
         } else {
             this.getLogger().info("EssentialsX not found - AFK/return messages disabled (join/leave still work).");
         }
-    }
-
-    @Override
-    public void onDisable() {
-        CommandAPI.onDisable();
     }
 }
