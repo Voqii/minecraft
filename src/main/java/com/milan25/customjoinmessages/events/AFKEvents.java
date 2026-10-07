@@ -26,7 +26,11 @@ public class AFKEvents implements Listener {
     // (paid-tier) message broadcast nothing when they go AFK, but are still announced
     // on return now that EssentialsX's own AFK broadcasts are turned off.
     private static final String DEFAULT_AFK_MESSAGE = "";
-    private static final String DEFAULT_RETURN_MESSAGE = "&7* {NAME} is no longer AFK.";
+    private static final String DEFAULT_RETURN_MESSAGE = "&7{NAME} is no longer AFK.";
+
+    // Every AFK/return broadcast (custom, admin default or built-in) starts with a grey
+    // "* ", EssentialsX style, so they read as status lines rather than chat.
+    private static final String BROADCAST_MARKER = "&7* ";
 
     private final CustomJoinMessages plugin;
 
@@ -63,6 +67,9 @@ public class AFKEvents implements Listener {
 
         String prefix = this.plugin.getConfig().getString(prefixKey, "");
         message = prefix + message;
+        if (!message.isEmpty() && !startsWithAsterisk(message)) {
+            message = BROADCAST_MARKER + message;
+        }
 
         String withPlaceholdersFilled = PlaceholderAPI.setPlaceholders(player, message);
 
@@ -72,5 +79,11 @@ public class AFKEvents implements Listener {
         if (!withPlaceholdersFilled.isEmpty()) {
             this.plugin.getServer().broadcastMessage(replacedColors);
         }
+    }
+
+    // True if the visible text already starts with "*" once colour codes (&a, &#RRGGBB) are
+    // ignored, so a player who typed their own asterisk doesn't get two.
+    private static boolean startsWithAsterisk(String message) {
+        return message.replaceAll("(?i)&(#[0-9a-f]{6}|[0-9a-fk-or])", "").stripLeading().startsWith("*");
     }
 }
