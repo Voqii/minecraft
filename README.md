@@ -4,7 +4,7 @@ A Minecraft (Paper/Spigot/Purpur) plugin for custom per-player join, leave and A
 
 > Keeps the upstream plugin name `CustomJoinMessages` (and data folder) so it's a
 > drop-in replacement — existing configs/messages are preserved. The version
-> `1.5.3-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
+> `1.5.4-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
 
 This is a fork of [milan252525/CustomJoinMessages](https://github.com/milan252525/CustomJoinMessages)
 by **milan_25** ([SpigotMC resource](https://www.spigotmc.org/resources/custom-player-join-leave-messages.74263/)).
@@ -62,6 +62,9 @@ own AFK announcements so this plugin is the single source of those messages.
 
 ## Changes in this fork
 
+- **Grey `* ` on every AFK/return broadcast (1.5.4).** Custom (paid) messages and the admin
+  default now get the same grey `* ` lead-in as the built-in return message. Not added twice if a
+  message already starts with `*`.
 - **Minecraft 26.3 support (1.5.3).** `/cm` is registered through Paper's built-in Brigadier
   command API instead of the shaded CommandAPI, whose per-version internals broke on 26.3
   (`NoClassDefFoundError: FuelValues`). Same subcommands, permissions and tab completion;
