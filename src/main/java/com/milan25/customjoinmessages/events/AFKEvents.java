@@ -26,11 +26,15 @@ public class AFKEvents implements Listener {
     // (paid-tier) message broadcast nothing when they go AFK, but are still announced
     // on return now that EssentialsX's own AFK broadcasts are turned off.
     private static final String DEFAULT_AFK_MESSAGE = "";
-    private static final String DEFAULT_RETURN_MESSAGE = "&7{NAME} is no longer AFK.";
+    // The &7 after {NAME} re-asserts grey, since the player's Essentials display name
+    // may carry its own colour (a coloured nickname).
+    private static final String DEFAULT_RETURN_MESSAGE = "&7{NAME}&7 is no longer AFK.";
 
-    // Every AFK/return broadcast (custom, admin default or built-in) starts with a grey
-    // "* ", EssentialsX style, so they read as status lines rather than chat.
-    private static final String BROADCAST_MARKER = "&7* ";
+    // Every AFK/return broadcast starts with "* ", EssentialsX style, so they read as status
+    // lines rather than chat. Per-player custom (paid-tier) messages get a white asterisk and
+    // defaults a grey one, so you can tell them apart at a glance.
+    private static final String CUSTOM_MARKER = "&f* ";
+    private static final String DEFAULT_MARKER = "&7* ";
 
     private final CustomJoinMessages plugin;
 
@@ -54,6 +58,7 @@ public class AFKEvents implements Listener {
         String prefixKey = nowAfk ? "custom_afk_message_prefix" : "custom_return_message_prefix";
 
         String message = this.plugin.getConfig().getString(savedKey + player.getUniqueId(), "");
+        String marker = message.isEmpty() ? DEFAULT_MARKER : CUSTOM_MARKER;
 
         if (message.isEmpty()) {
             // No per-player message: fall back to the admin-configured default, and
@@ -62,13 +67,19 @@ public class AFKEvents implements Listener {
             if (defaultMessage.isEmpty()) {
                 defaultMessage = nowAfk ? DEFAULT_AFK_MESSAGE : DEFAULT_RETURN_MESSAGE;
             }
-            message = defaultMessage.replace("{NAME}", player.getName());
+            // Use the player's Essentials display name (their coloured nickname when set)
+            // so default messages aren't a flat grey name; fall back to the plain name.
+            String displayName = event.getAffected().getDisplayName();
+            if (displayName == null || displayName.isEmpty()) {
+                displayName = player.getName();
+            }
+            message = defaultMessage.replace("{NAME}", displayName);
         }
 
         String prefix = this.plugin.getConfig().getString(prefixKey, "");
         message = prefix + message;
         if (!message.isEmpty() && !startsWithAsterisk(message)) {
-            message = BROADCAST_MARKER + message;
+            message = marker + message;
         }
 
         String withPlaceholdersFilled = PlaceholderAPI.setPlaceholders(player, message);

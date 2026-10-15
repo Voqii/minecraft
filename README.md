@@ -4,7 +4,7 @@ A Minecraft (Paper/Spigot/Purpur) plugin for custom per-player join, leave and A
 
 > Keeps the upstream plugin name `CustomJoinMessages` (and data folder) so it's a
 > drop-in replacement — existing configs/messages are preserved. The version
-> `1.5.4-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
+> `1.5.5-voqii` is how you tell this fork apart from upstream `1.2.1` in `/plugins`.
 
 This is a fork of [milan252525/CustomJoinMessages](https://github.com/milan252525/CustomJoinMessages)
 by **milan_25** ([SpigotMC resource](https://www.spigotmc.org/resources/custom-player-join-leave-messages.74263/)).
@@ -62,6 +62,11 @@ own AFK announcements so this plugin is the single source of those messages.
 
 ## Changes in this fork
 
+- **White vs grey `* `, coloured names on defaults (1.5.5).** Per-player custom (paid) AFK/return
+  messages now lead with a **white** `* `; the admin and built-in defaults keep the **grey** `* `,
+  so the two are easy to tell apart. Default messages fill `{NAME}` with the player's EssentialsX
+  display name (their coloured nickname when set) instead of the plain username, falling back to
+  the plain name. Ported from the unreleased 1.5.2-voqii laptop build.
 - **Grey `* ` on every AFK/return broadcast (1.5.4).** Custom (paid) messages and the admin
   default now get the same grey `* ` lead-in as the built-in return message. Not added twice if a
   message already starts with `*`.
