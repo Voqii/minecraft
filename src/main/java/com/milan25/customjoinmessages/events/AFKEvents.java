@@ -44,6 +44,14 @@ public class AFKEvents implements Listener {
 
     @EventHandler
     public void onAfkStatusChange(AfkStatusChangeEvent event) {
+        // EssentialsX clears a stale AFK flag (it's saved in userdata) during PlayerJoinEvent,
+        // and clears it again on quit. Broadcasting those would print "is no longer AFK"
+        // before the join message / alongside the leave message, so only real returns count.
+        AfkStatusChangeEvent.Cause cause = event.getCause();
+        if (cause == AfkStatusChangeEvent.Cause.JOIN || cause == AfkStatusChangeEvent.Cause.QUIT) {
+            return;
+        }
+
         Player player = event.getAffected().getBase();
         boolean nowAfk = event.getValue();
 
